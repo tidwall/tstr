@@ -17,6 +17,7 @@ typedef char tstr;
 tstr *tstr_from_bytes(const void *bytes, size_t nbytes);
 tstr *tstr_from_cstr(const char *cstr);
 tstr *tstr_from_format(const char *format, ...); 
+tstr *tstr_from_zeros(size_t nbytes);
 tstr *tstr_clone(const tstr *);
 void tstr_free(tstr *);
 size_t tstr_len(const tstr *);

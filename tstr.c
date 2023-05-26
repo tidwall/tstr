@@ -41,6 +41,15 @@ static struct istr *toistr(const tstr *str) {
     return (struct istr *)(((char*)str)-dataoff);
 }
 
+tstr *tstr_from_zeros(size_t nbytes) {
+    struct istr *istr = tmalloc(sizeof(struct istr)+nbytes+1);
+    if (!istr) return NULL;
+    istr->rc = 0;
+    istr->len = nbytes;
+    memset(istr->data, 0, nbytes+1);
+    return (tstr*)(&istr->data[0]);
+}
+
 tstr *tstr_from_format(const char *format, ...) {
     va_list args;
     va_start(args, format);
