@@ -3,7 +3,7 @@
 A safe immutable string format for C.
 
 - Supports binary as well as null-terminated cstr.
-- Backwards compatible with the "char*" cstr.
+- Backwards compatible with the "char *" C-string.
 - Provides a clone method for sharing the same data without new allocations.
 
 ## Example
@@ -20,7 +20,7 @@ if (!str) ... // check for out of memory
 tstr *str2 = tstr_clone(str);
 
 // Print the string "fantastic words".
-printf("%s", str2);
+printf("%s\n", str2);
 
 // Free both the clone and original
 tstr_free(str);
@@ -44,8 +44,7 @@ bool tstr_equal(const tstr *a, const tstr *b);
 
 ## Structure
 
-A `tstr` will always be a little larger than the original data in order to
-include the reference counter, length, and null-terminator character.
+The internal structure is:
 
 ```C
 struct {
@@ -55,3 +54,10 @@ struct {
 };
 ```
 
+A complete tstr allocation will always be a little larger than the
+original data in order to include the reference counter, length, and the
+null-terminator character.
+
+The actual tstr pointer (`tstr *`) starts at the first byte of the `cstr`
+field, which ensures that the tstr works like a C-string and can be used
+by all `string.h` functions as well as `tstr.h` functions.
