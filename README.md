@@ -32,14 +32,19 @@ tstr_free(str2);
 ```C
 tstr *tstr_from_bytes(const void *bytes, size_t nbytes);
 tstr *tstr_from_cstr(const char *cstr);
-tstr *tstr_from_format(const char *format, ...); 
+tstr *tstr_from_format(const char *format, ...);
 tstr *tstr_clone(const tstr *);
 void tstr_free(tstr *);
 size_t tstr_len(const tstr *);
-const char *tstr_cstr(const tstr *);
-const void *tstr_bytes(const tstr *);
-int tstr_compare(const tstr *a, const tstr *b); 
-bool tstr_equal(const tstr *a, const tstr *b); 
+const char *tstr_cstr(tstr *);
+const void *tstr_bytes(tstr *);
+bool tstr_equal(tstr *a, tstr *b); 
+int tstr_cmp(tstr *a, tstr *b);
+int tstr_casecmp(tstr *a, tstr *b);
+int tstr_ncmp(tstr *a, tstr *b, size_t n);
+int tstr_ncasecmp(tstr *a, tstr *b, size_t n);
+int tstr_cmp_cstr(tstr *str, const char *cstr);
+int tstr_casecmp_cstr(tstr *str, const char *cstr);
 ```
 
 ## Structure
@@ -49,8 +54,8 @@ The internal structure is:
 ```C
 struct {
     atomic_int rc;  // reference counter for cloning
-    size_t len;     // length of cstr. Does not include the null character.
-    char cstr[];    // raw string binary. Always null-terminated.
+    size_t len;     // length of data. Does not include the null character.
+    char data[];    // raw string binary. Always null-terminated.
 };
 ```
 
